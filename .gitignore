@@ -9,3 +9,7 @@ Thumbs.db
 # Logs & scratch
 *.log
 scratch/
+
+# Private documentation / interview notes
+INTERVIEW_PREP.md
+FEATURE_STATUS.md

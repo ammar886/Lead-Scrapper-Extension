@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vanguard Heating & Air - Google Maps</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background: #e5e7eb; padding: 24px; }
+    .maps-mock { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 380px 1fr; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+    .pane { padding: 24px; border-right: 1px solid #e5e7eb; }
+    .map-canvas { background: #cbd5e1; display: flex; align-items: center; justify-content: center; color: #475569; font-weight: 600; min-height: 500px; }
+    h1.DUwDvf { font-size: 22px; color: #1e293b; margin: 0 0 8px 0; }
+    button.DkEaL { background: #f1f5f9; border: none; padding: 4px 10px; border-radius: 16px; font-size: 13px; color: #0284c7; cursor: pointer; }
+    .info-row { display: flex; align-items: center; gap: 12px; margin-top: 14px; font-size: 14px; }
+    button[data-item-id] { background: none; border: none; text-align: left; cursor: pointer; color: #334155; padding: 6px 0; display: block; width: 100%; font-size: 13px; }
+    a[data-item-id] { color: #0284c7; text-decoration: none; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="maps-mock">
+    <!-- Simulated Google Maps Details Pane -->
+    <div class="pane" role="main">
+      <div class="lMbq3e">
+        <h1 class="DUwDvf fontHeadlineLarge">Vanguard Heating & Air Conditioning</h1>
+      </div>
+      <div>
+        <button class="DkEaL" jsaction="pane.rating.category">HVAC Contractor</button>
+      </div>
+      
+      <hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 18px 0;">
+
+      <div class="info-row">
+        <span>📍</span>
+        <button data-item-id="address" aria-label="Address: 1500 Texas Ave, Houston, TX 77002">
+          <div class="Io6YTe fontBodyMedium">1500 Texas Ave, Houston, TX 77002</div>
+        </button>
+      </div>
+
+      <div class="info-row">
+        <span>📞</span>
+        <button data-item-id="phone:tel:+18325557788" aria-label="Phone: (832) 555-7788">
+          <div class="Io6YTe fontBodyMedium">(832) 555-7788</div>
+        </button>
+      </div>
+
+      <div class="info-row">
+        <span>🌐</span>
+        <a data-item-id="authority" aria-label="Website: vanguardhvac.com" href="https://www.google.com/url?q=https://vanguardhvac.com&source=maps">
+          <div class="Io6YTe fontBodyMedium">vanguardhvac.com</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Map Canvas Area -->
+    <div class="map-canvas">
+      Simulated Google Maps View
+    </div>
+  </div>
+</body>
+</html>
+

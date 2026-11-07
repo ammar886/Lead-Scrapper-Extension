@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "Pastry Lead Scraper",
+  "version": "1.0.0",
+  "description": "Extract, deduplicate, and export business leads from Google Maps, Yelp, and websites for home service businesses.",
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "32": "assets/icons/icon32.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Pastry Lead Scraper",
+    "default_icon": {
+      "16": "assets/icons/icon16.png",
+      "32": "assets/icons/icon32.png",
+      "48": "assets/icons/icon48.png",
+      "128": "assets/icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://*.google.com/maps/*",
+    "*://*.google.ca/maps/*",
+    "*://*.google.co.uk/maps/*",
+    "*://*.yelp.com/*",
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "utils/normalize.js",
+        "utils/extractWebsite.js",
+        "utils/extractGoogleMaps.js",
+        "utils/extractYelp.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

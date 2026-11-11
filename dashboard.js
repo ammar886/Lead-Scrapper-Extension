@@ -1,13 +1,14 @@
 /**
- * Pastry Lead Scraper - Dashboard Application Controller
+ * LeadHero - Dashboard Application Controller
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // DOM Elements - Header
+  // DOM Elements - Header & Theme
   const headerLicensePill = document.getElementById('header-license-pill');
   const licensePillText = document.getElementById('license-pill-text');
   const headerExtractBtn = document.getElementById('header-extract-btn');
   const settingsBtn = document.getElementById('settings-btn');
+  const themeButtons = document.querySelectorAll('[data-theme-choice]');
 
   // DOM Elements - Search Config
   const searchConfigForm = document.getElementById('search-config-form');
@@ -74,15 +75,55 @@ document.addEventListener('DOMContentLoaded', async () => {
   let currentSort = { column: 'collectedAt', asc: false };
   let pendingConfirmAction = null;
 
+  /* ================= 0. THEME MANAGEMENT (LIGHT / DARK) ================= */
+  function applyTheme(theme) {
+    const normalized = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', normalized);
+    themeButtons.forEach((btn) => {
+      const choice = btn.getAttribute('data-theme-choice');
+      if (choice === normalized) {
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+      } else {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
+      }
+    });
+  }
+
+  async function initTheme() {
+    try {
+      const cached = localStorage.getItem('leadhero_theme');
+      if (cached === 'dark' || cached === 'light') {
+        applyTheme(cached);
+      }
+    } catch (e) {}
+
+    if (typeof getTheme === 'function') {
+      const saved = await getTheme();
+      applyTheme(saved);
+    }
+  }
+
+  themeButtons.forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const choice = btn.getAttribute('data-theme-choice');
+      applyTheme(choice);
+      if (typeof saveTheme === 'function') {
+        await saveTheme(choice);
+      }
+    });
+  });
+
   /* ================= 1. TOAST NOTIFICATIONS ================= */
   function showToast(message, type = 'info', duration = 3500) {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
-    
+
     const icon = type === 'success' ? '✓' : type === 'error' ? '⚠️' : 'ℹ️';
     toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
-    
+
     container.appendChild(toast);
     setTimeout(() => {
       toast.style.opacity = '0';
@@ -127,7 +168,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const res = await activateLicense(key);
     if (res.success) {
-      showToast('License successfully activated! Welcome to Pastry Lead Scraper.', 'success');
+      showToast('License successfully activated! Welcome to LeadHero.', 'success');
       await checkLicenseStatus();
       await refreshAllData();
     } else {
@@ -308,7 +349,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       // 7. Website
       const tdWeb = document.createElement('td');
       if (lead.website) {
-        const cleanHost = new URL(lead.website).hostname.replace(/^www\./, '');
+        let cleanHost = lead.website;
+        try {
+          cleanHost = new URL(lead.website).hostname.replace(/^www\./, '');
+        } catch (e) {}
         tdWeb.innerHTML = `<a href="${escapeHtml(lead.website)}" target="_blank" rel="noopener noreferrer" class="external-link">${escapeHtml(cleanHost)} ↗</a>`;
       } else {
         tdWeb.innerHTML = `<span class="lead-date">—</span>`;
@@ -542,7 +586,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           hideSourceStatusBanner();
           await refreshAllData();
         } else if (response && (response.blocked || response.status === 'Yelp access restricted')) {
-          // Display clear status in dashboard: "Yelp access restricted"
           displaySourceStatus(
             'Yelp access restricted',
             'Yelp is currently presenting an access-denied or CAPTCHA challenge on the active tab. Extraction was halted immediately to prevent saving empty or fabricated records. Please complete the verification in your Yelp tab or use an authorized Yelp Fusion API.'
@@ -561,6 +604,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   /* ================= 8. EXPORT CONTROLS ================= */
+  const exportHelper = window.LeadHeroExport || window.PastryExport;
+
   // Export CSV
   exportCsvBtn.addEventListener('click', () => {
     const recordsToExport = selectedIds.size > 0
@@ -573,8 +618,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-      PastryExport.exportToCSV(recordsToExport, 'pastry-business-leads.csv');
-      showToast(`Exported ${recordsToExport.length} leads to pastry-business-leads.csv`, 'success');
+      exportHelper.exportToCSV(recordsToExport, 'leadhero-business-leads.csv');
+      showToast(`Exported ${recordsToExport.length} leads to leadhero-business-leads.csv`, 'success');
     } catch (err) {
       showToast(err.message, 'error');
     }
@@ -592,8 +637,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-      PastryExport.exportToXLSX(recordsToExport, 'pastry-business-leads.xlsx');
-      showToast(`Exported ${recordsToExport.length} leads to pastry-business-leads.xlsx`, 'success');
+      exportHelper.exportToXLSX(recordsToExport, 'leadhero-business-leads.xlsx');
+      showToast(`Exported ${recordsToExport.length} leads to leadhero-business-leads.xlsx`, 'success');
     } catch (err) {
       showToast(err.message, 'error');
     }
@@ -606,7 +651,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
     try {
-      const res = await PastryExport.copyToClipboard(filteredBusinesses);
+      const res = await exportHelper.copyToClipboard(filteredBusinesses);
       showToast(res.message, 'success');
     } catch (err) {
       showToast(err.message, 'error');
@@ -621,7 +666,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
     try {
-      const res = await PastryExport.copyToClipboard(selectedRecords);
+      const res = await exportHelper.copyToClipboard(selectedRecords);
       showToast(res.message, 'success');
     } catch (err) {
       showToast(err.message, 'error');
@@ -696,17 +741,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       .replace(/'/g, '&#039;');
   }
 
-  // Listen for storage changes from background or popup to update stats in real-time
+  // Listen for storage changes from background or popup to update stats and theme in real time
   if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.onChanged) {
     chrome.storage.onChanged.addListener((changes, areaName) => {
-      if (areaName === 'local' && (changes.pastry_businesses || changes.pastry_stats)) {
-        refreshAllData();
+      if (areaName === 'local') {
+        if (changes.leadhero_businesses || changes.leadhero_stats) {
+          refreshAllData();
+        }
+        if (changes.leadhero_theme && changes.leadhero_theme.newValue) {
+          applyTheme(changes.leadhero_theme.newValue);
+        }
       }
     });
   }
 
   /* ================= INITIALIZATION ================= */
+  await initTheme();
   await checkLicenseStatus();
   await refreshAllData();
 });
-

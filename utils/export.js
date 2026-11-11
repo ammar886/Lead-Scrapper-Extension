@@ -1,5 +1,5 @@
 /**
- * Pastry Lead Scraper - Data Export Utilities
+ * LeadHero - Data Export Utilities
  * Supports CSV (native RFC 4180), XLSX (via bundled SheetJS), and Clipboard TSV.
  */
 
@@ -76,7 +76,7 @@ function downloadBlob(blob, filename) {
  * @param {string} filename
  * @returns {boolean}
  */
-function exportToCSV(records = [], filename = 'pastry-business-leads.csv') {
+function exportToCSV(records = [], filename = 'leadhero-business-leads.csv') {
   if (!records || records.length === 0) {
     throw new Error('No records available to export.');
   }
@@ -94,7 +94,7 @@ function exportToCSV(records = [], filename = 'pastry-business-leads.csv') {
  * @param {string} filename
  * @returns {boolean}
  */
-function exportToXLSX(records = [], filename = 'pastry-business-leads.xlsx') {
+function exportToXLSX(records = [], filename = 'leadhero-business-leads.xlsx') {
   if (!records || records.length === 0) {
     throw new Error('No records available to export.');
   }
@@ -230,7 +230,7 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 if (typeof window !== 'undefined') {
-  window.PastryExport = {
+  const exportApi = {
     EXPORT_COLUMNS,
     escapeCSVCell,
     generateCSV,
@@ -239,5 +239,7 @@ if (typeof window !== 'undefined') {
     formatAsTSV,
     copyToClipboard
   };
+  window.LeadHeroExport = exportApi;
+  window.PastryExport = exportApi;
 }
 

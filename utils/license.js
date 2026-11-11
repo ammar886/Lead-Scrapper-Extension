@@ -1,5 +1,5 @@
 /**
- * Pastry Lead Scraper - License Verification System (Demo Prototype)
+ * LeadHero - License Verification System (Demo Prototype)
  *
  * IMPORTANT SECURITY NOTICE:
  * This client-side license validation is designed exclusively as an MVP demo.
@@ -11,14 +11,14 @@
 let storageModule;
 if (typeof module !== 'undefined' && module.exports) {
   storageModule = require('./storage.js');
-} else if (typeof window !== 'undefined' && window.PastryStorage) {
-  storageModule = window.PastryStorage;
+} else if (typeof window !== 'undefined' && (window.LeadHeroStorage || window.PastryStorage)) {
+  storageModule = window.LeadHeroStorage || window.PastryStorage;
 }
 
 const VALID_LICENSES = [
-  'PASTRY-DEMO-2026',
-  'PASTRY-TEST-001',
-  'PASTRY-TEST-002'
+  'LEADHERO-DEMO-2026',
+  'LEADHERO-TEST-001',
+  'LEADHERO-TEST-002'
 ];
 
 /**
@@ -48,7 +48,7 @@ async function activateLicense(key) {
   if (!validateLicense(cleaned)) {
     return {
       success: false,
-      message: 'Invalid license key. Please check your key or use a demo key (e.g. PASTRY-DEMO-2026).'
+      message: 'Invalid license key. Please check your key or use a demo key (e.g. LEADHERO-DEMO-2026).'
     };
   }
 
@@ -59,7 +59,7 @@ async function activateLicense(key) {
     type: 'Demo Evaluation License'
   };
 
-  const storage = storageModule || (typeof window !== 'undefined' ? window.PastryStorage : null);
+  const storage = storageModule || (typeof window !== 'undefined' ? (window.LeadHeroStorage || window.PastryStorage) : null);
   if (storage && storage.saveLicense) {
     await storage.saveLicense(licenseData);
   }
@@ -77,7 +77,7 @@ async function activateLicense(key) {
  * @returns {Promise<{success: boolean}>}
  */
 async function deactivateLicense() {
-  const storage = storageModule || (typeof window !== 'undefined' ? window.PastryStorage : null);
+  const storage = storageModule || (typeof window !== 'undefined' ? (window.LeadHeroStorage || window.PastryStorage) : null);
   if (storage && storage.clearLicense) {
     await storage.clearLicense();
   }
@@ -89,7 +89,7 @@ async function deactivateLicense() {
  * @returns {Promise<{isActive: boolean, key: string|null, activatedAt: string|null}>}
  */
 async function getLicenseStatus() {
-  const storage = storageModule || (typeof window !== 'undefined' ? window.PastryStorage : null);
+  const storage = storageModule || (typeof window !== 'undefined' ? (window.LeadHeroStorage || window.PastryStorage) : null);
   if (!storage || !storage.getLicense) {
     return { isActive: false, key: null, activatedAt: null };
   }
@@ -119,13 +119,15 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 if (typeof window !== 'undefined') {
-  window.PastryLicense = {
+  const licenseApi = {
     VALID_LICENSES,
     validateLicense,
     activateLicense,
     deactivateLicense,
     getLicenseStatus
   };
+  window.LeadHeroLicense = licenseApi;
+  window.PastryLicense = licenseApi;
   window.validateLicense = validateLicense;
   window.activateLicense = activateLicense;
   window.deactivateLicense = deactivateLicense;

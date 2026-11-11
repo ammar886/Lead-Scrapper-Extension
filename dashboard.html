@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pastry Lead Scraper – Dashboard</title>
+  <title>LeadHero – Business Lead Scraper Dashboard</title>
   <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
@@ -14,17 +14,45 @@
   <header class="app-header">
     <div class="header-inner">
       <div class="header-left">
-        <div class="brand-badge">🥐</div>
+        <div class="brand-badge" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M13 2L4 14h7l-2 8 9-12h-7l2-8z" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.2" stroke-linejoin="round"/>
+          </svg>
+        </div>
         <div>
           <div class="brand-title-wrap">
-            <h1 class="brand-name">Pastry Lead Scraper</h1>
+            <h1 class="brand-name">LeadHero</h1>
             <span class="brand-tag">MVP</span>
           </div>
-          <p class="brand-tagline">Lead Generation & Data Extraction for Home Services</p>
+          <p class="brand-tagline">Smart Lead Discovery & Extraction for Service Businesses</p>
         </div>
       </div>
 
       <div class="header-right">
+        <!-- Light / Dark Mode Switcher -->
+        <div class="theme-switcher" role="group" aria-label="Color Theme">
+          <button type="button" class="theme-btn active" data-theme-choice="light" id="theme-light-btn" title="Switch to Light Mode">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <span>Light</span>
+          </button>
+          <button type="button" class="theme-btn" data-theme-choice="dark" id="theme-dark-btn" title="Switch to Dark Mode">
+            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <span>Dark</span>
+          </button>
+        </div>
+
         <!-- Direct Quick Extract from Active Tab -->
         <button id="header-extract-btn" class="btn btn-outline" title="Extract leads from the currently active browser tab">
           <span class="btn-icon">⚡</span>
@@ -34,11 +62,11 @@
         <!-- License Status Indicator -->
         <div id="header-license-pill" class="license-status-pill pill-active">
           <span class="status-dot"></span>
-          <span id="license-pill-text">Active: PASTRY-DEMO-2026</span>
+          <span id="license-pill-text">Active: LEADHERO-DEMO-2026</span>
         </div>
 
         <!-- Settings Button -->
-        <button id="settings-btn" class="btn btn-ghost" title="License & Extension Settings">
+        <button id="settings-btn" class="btn btn-ghost" title="Appearance, License & Extension Settings">
           <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -51,7 +79,7 @@
 
   <!-- Main Dashboard Container -->
   <main class="dashboard-main">
-    
+
     <!-- Top Search Configuration Section -->
     <section class="card search-card">
       <div class="card-header">
@@ -59,7 +87,7 @@
           <span class="section-icon">🔍</span>
           <h2>Search Configuration</h2>
         </div>
-        <span class="card-subtext">Configure search parameters to discover home service businesses across sources</span>
+        <span class="card-subtext">Configure search parameters to discover local service businesses across sources</span>
       </div>
 
       <form id="search-config-form" class="search-form">
@@ -67,10 +95,10 @@
           <!-- Keyword -->
           <div class="form-group">
             <label for="keyword-input" class="form-label">Keyword / Trade</label>
-            <input 
-              type="text" 
-              id="keyword-input" 
-              class="form-input" 
+            <input
+              type="text"
+              id="keyword-input"
+              class="form-input"
               placeholder="e.g. Plumber, Electrician, HVAC Contractor, Roofer"
               value="Plumber"
               required
@@ -87,10 +115,10 @@
           <!-- Location -->
           <div class="form-group">
             <label for="location-input" class="form-label">Location / Target Market</label>
-            <input 
-              type="text" 
-              id="location-input" 
-              class="form-input" 
+            <input
+              type="text"
+              id="location-input"
+              class="form-input"
               placeholder="e.g. Houston, Texas or Austin, TX"
               value="Houston, Texas"
               required
@@ -150,7 +178,7 @@
         <div class="banner-body">
           <h4 class="banner-title">Search Page Opened in New Tab</h4>
           <p class="banner-text">
-            Search tabs for your criteria have been launched. Browse to any business profile or search list on Google Maps or Yelp, then click the floating <strong>"Extract"</strong> badge on that page or use the <strong>"Extract from Active Tab"</strong> button in this dashboard.
+            Search tabs for your criteria have been launched. Browse to any business profile or search list on Google Maps or Yelp, then click the floating <strong>"LeadHero: Extract"</strong> badge on that page or use the <strong>"Extract from Active Tab"</strong> button in this dashboard.
           </p>
         </div>
         <button id="close-workflow-banner" class="banner-close">&times;</button>
@@ -203,7 +231,7 @@
       <div class="stat-card">
         <div class="stat-meta">
           <span class="stat-label">Website Leads</span>
-          <span class="stat-trend badge-stat-purple">Direct Sites</span>
+          <span class="stat-trend badge-stat-sky">Direct Sites</span>
         </div>
         <div class="stat-value" id="stat-website">0</div>
         <div class="stat-footer">Extracted via JSON-LD & DOM</div>
@@ -266,7 +294,7 @@
           </button>
 
           <!-- Export CSV -->
-          <button id="export-csv-btn" class="btn btn-secondary btn-sm" title="Download all leads as pastry-business-leads.csv">
+          <button id="export-csv-btn" class="btn btn-secondary btn-sm" title="Download all leads as leadhero-business-leads.csv">
             <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
               <polyline points="7 10 12 15 17 10"></polyline>
@@ -276,7 +304,7 @@
           </button>
 
           <!-- Export XLSX -->
-          <button id="export-xlsx-btn" class="btn btn-primary btn-sm" title="Download all leads as pastry-business-leads.xlsx using SheetJS">
+          <button id="export-xlsx-btn" class="btn btn-primary btn-sm" title="Download all leads as leadhero-business-leads.xlsx using SheetJS">
             <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
               <polyline points="14 2 14 8 20 8"></polyline>
@@ -325,10 +353,14 @@
 
         <!-- Empty State -->
         <div id="table-empty-state" class="empty-state">
-          <div class="empty-illustration">📋</div>
+          <div class="empty-illustration" aria-hidden="true">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M13 2L4 14h7l-2 8 9-12h-7l2-8z" stroke="var(--primary-accent)" fill="var(--primary-light)" stroke-linejoin="round"/>
+            </svg>
+          </div>
           <h3 class="empty-title">No business leads collected yet</h3>
           <p class="empty-desc">
-            Use the search configuration above to open Google Maps or Yelp, or visit any home service business website. Click "Extract Leads" to collect verified business contacts.
+            Use the search configuration above to open Google Maps or Yelp, or visit any home service business website. Click "Extract Leads" to collect verified business contacts in LeadHero.
           </p>
           <div class="empty-actions">
             <button id="empty-search-trigger-btn" class="btn btn-primary">
@@ -345,18 +377,24 @@
   <div id="license-modal" class="modal-backdrop">
     <div class="modal-card">
       <div class="modal-header">
-        <div class="modal-logo">🥐</div>
-        <h2 class="modal-title">Activate Pastry Lead Scraper</h2>
-        <p class="modal-subtitle">Enter your evaluation license key to unlock lead scraping and export capabilities.</p>
+        <div class="modal-logo">
+          <div class="brand-badge brand-badge-lg" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path d="M13 2L4 14h7l-2 8 9-12h-7l2-8z" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.2" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <h2 class="modal-title">Activate LeadHero</h2>
+        <p class="modal-subtitle">Enter your evaluation license key to unlock lead discovery and export capabilities.</p>
       </div>
 
       <div class="modal-body">
         <div class="demo-keys-box">
           <span class="demo-keys-title">Available Demo Evaluation Keys:</span>
           <div class="demo-key-list">
-            <button type="button" class="demo-key-chip" data-key="PASTRY-DEMO-2026">PASTRY-DEMO-2026</button>
-            <button type="button" class="demo-key-chip" data-key="PASTRY-TEST-001">PASTRY-TEST-001</button>
-            <button type="button" class="demo-key-chip" data-key="PASTRY-TEST-002">PASTRY-TEST-002</button>
+            <button type="button" class="demo-key-chip" data-key="LEADHERO-DEMO-2026">LEADHERO-DEMO-2026</button>
+            <button type="button" class="demo-key-chip" data-key="LEADHERO-TEST-001">LEADHERO-TEST-001</button>
+            <button type="button" class="demo-key-chip" data-key="LEADHERO-TEST-002">LEADHERO-TEST-002</button>
           </div>
           <span class="demo-note">Click any key above to populate the input field.</span>
         </div>
@@ -364,11 +402,11 @@
         <form id="license-form" class="license-form">
           <div class="form-group">
             <label for="license-key-input" class="form-label">License Key</label>
-            <input 
-              type="text" 
-              id="license-key-input" 
-              class="form-input license-input" 
-              placeholder="PASTRY-DEMO-2026"
+            <input
+              type="text"
+              id="license-key-input"
+              class="form-input license-input"
+              placeholder="LEADHERO-DEMO-2026"
               autocomplete="off"
               required
             >
@@ -377,30 +415,46 @@
 
           <div class="modal-footer">
             <button type="submit" id="activate-license-btn" class="btn btn-primary btn-block btn-lg">
-              <span>Activate Extension</span>
+              <span>Activate LeadHero</span>
             </button>
           </div>
         </form>
 
         <p class="license-disclaimer">
-          <strong>Notice:</strong> This client-side validation is designed exclusively for evaluation and interview demonstration. Production builds require server-side cryptographic token validation.
+          <strong>Notice:</strong> This client-side validation is designed exclusively for evaluation and demonstration. Production builds require server-side cryptographic token validation.
         </p>
       </div>
     </div>
   </div>
 
-  <!-- ================= SETTINGS / DEACTIVATE MODAL ================= -->
+  <!-- ================= SETTINGS / APPEARANCE & LICENSE MODAL ================= -->
   <div id="settings-modal" class="modal-backdrop hidden">
     <div class="modal-card">
       <div class="modal-header modal-header-row">
         <div>
-          <h2 class="modal-title">Settings & License</h2>
-          <p class="modal-subtitle">Manage local storage and license activation</p>
+          <h2 class="modal-title">LeadHero Settings</h2>
+          <p class="modal-subtitle">Manage theme appearance, local storage, and license activation</p>
         </div>
         <button id="close-settings-btn" class="modal-close-btn">&times;</button>
       </div>
 
       <div class="modal-body">
+        <!-- Appearance / Theme Mode Selector -->
+        <div class="settings-group" style="margin-bottom: 16px;">
+          <h4 class="settings-heading">Appearance</h4>
+          <p class="settings-note">Choose between Light Mode (White &amp; Light Blue) and Dark Mode (Dark Navy &amp; Light Blue).</p>
+          <div class="theme-option-grid">
+            <button type="button" class="theme-option-card active" id="settings-theme-light" data-theme-choice="light">
+              <span class="theme-preview preview-light"></span>
+              <span class="theme-option-label">☀️ Light Mode</span>
+            </button>
+            <button type="button" class="theme-option-card" id="settings-theme-dark" data-theme-choice="dark">
+              <span class="theme-preview preview-dark"></span>
+              <span class="theme-option-label">🌙 Dark Mode</span>
+            </button>
+          </div>
+        </div>
+
         <div class="settings-group">
           <h4 class="settings-heading">Active License</h4>
           <div class="settings-row">
@@ -416,11 +470,11 @@
           </button>
         </div>
 
-        <div class="settings-group" style="margin-top: 18px;">
+        <div class="settings-group" style="margin-top: 16px;">
           <h4 class="settings-heading">Data Management</h4>
           <p class="settings-note">All collected records are stored locally in your browser profile using <code>chrome.storage.local</code>.</p>
           <button id="settings-reset-all-btn" class="btn btn-ghost-danger btn-block" style="margin-top: 8px;">
-            Reset All Data & Deduplication Stats
+            Reset All Data &amp; Deduplication Stats
           </button>
         </div>
       </div>
@@ -454,4 +508,3 @@
   <script src="dashboard.js"></script>
 </body>
 </html>
-

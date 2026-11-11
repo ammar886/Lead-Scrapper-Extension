@@ -1,7 +1,7 @@
-# Pastry Lead Scraper – Feature Status Report
+# LeadHero – Feature Status Report
 
 > **Evaluation Task**: Yelp Access-Restricted & Anti-Bot Challenge Handling  
-> **Extension**: Pastry Lead Scraper (Manifest V3)  
+> **Extension**: LeadHero (Manifest V3)  
 > **Status**: **VERIFIED & OPERATIONAL**
 
 ---
@@ -37,7 +37,7 @@ The `detectYelpBlock(doc)` function evaluates pages against multiple signature l
 function extractYelp(doc = document, loc = location) {
   const blockCheck = detectYelpBlock(doc);
   if (blockCheck.isBlocked) {
-    console.warn('[Pastry Lead Scraper] Yelp access restriction detected. Extraction halted immediately.');
+    console.warn('[LeadHero] Yelp access restriction detected. Extraction halted immediately.');
     const blockedResult = [];
     blockedResult.blocked = true;
     blockedResult.status = 'Yelp access restricted';
@@ -69,7 +69,7 @@ To ensure future readiness for authorized API partnerships, `utils/extractYelp.j
 const YelpApiProvider = {
   ENDPOINT: 'https://api.yelp.com/v3/businesses/search',
   buildParams(term, location, limit = 20) { /* ... */ },
-  normalizeApiResponse(item) { /* Maps Yelp API response to Pastry schema */ }
+  normalizeApiResponse(item) { /* Maps Yelp API response to LeadHero schema */ }
 };
 ```
 
@@ -80,7 +80,7 @@ const YelpApiProvider = {
 All automated tests pass cleanly (`npm test`):
 
 ```text
-> pastry-lead-scraper@1.0.0 test
+> leadhero@1.0.0 test
 > node scripts/test_all.js && node scripts/test_extractors.js
 
 =============================================
@@ -88,7 +88,7 @@ TEST 1: Manifest V3 Validation
 =============================================
 ✓ Manifest is valid JSON
 ✓ Manifest version is 3
-✓ Manifest name is "Pastry Lead Scraper"
+✓ Manifest name is "LeadHero"
 ✓ Required permissions present: [ 'storage', 'tabs', 'activeTab', 'scripting' ]
 
 =============================================
@@ -111,6 +111,7 @@ TEST 4: Storage Persistence & Duplicate Prevention
 ✓ Storage stats verified: Total=2, DuplicatesPrevented=3
 ✓ Individual deletion verified
 ✓ Batch deletion verified
+✓ Theme preference persistence (light/dark) verified
 
 =============================================
 TEST 5: Data Export (CSV, XLSX, TSV)
@@ -131,11 +132,11 @@ TEST 7: Yelp Redirection Cleaner
 
 =============================================
 --- Testing Yelp Block & Access-Restricted Detection ---
-[Pastry Lead Scraper] Yelp access restriction detected. Extraction halted immediately.
+[LeadHero] Yelp access restriction detected. Extraction halted immediately.
 ✓ Title signature block detection & immediate extraction halt verified
-[Pastry Lead Scraper] Yelp access restriction detected. Extraction halted immediately.
+[LeadHero] Yelp access restriction detected. Extraction halted immediately.
 ✓ Cloudflare challenge element detection verified
-[Pastry Lead Scraper] Yelp access restriction detected. Extraction halted immediately.
+[LeadHero] Yelp access restriction detected. Extraction halted immediately.
 ✓ CAPTCHA challenge detection verified
 
 --- Testing Modular Yelp Fusion API Adapter ---

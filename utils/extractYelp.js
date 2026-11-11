@@ -1,5 +1,5 @@
 /**
- * Pastry Lead Scraper - Yelp Extraction & Provider Module
+ * LeadHero - Yelp Extraction & Provider Module
  *
  * Modular architecture supporting:
  * 1. Client-side DOM extraction for user-initiated browser sessions.
@@ -144,7 +144,7 @@ function extractYelp(doc = document, loc = location) {
   // 1. Immediately check for access restriction / CAPTCHA gate
   const blockCheck = detectYelpBlock(doc);
   if (blockCheck.isBlocked) {
-    console.warn('[Pastry Lead Scraper] Yelp access restriction detected. Extraction halted immediately.');
+    console.warn('[LeadHero] Yelp access restriction detected. Extraction halted immediately.');
     
     // Return empty array annotated with block status
     const blockedResult = [];
@@ -395,7 +395,7 @@ const YelpApiProvider = {
   },
 
   /**
-   * Maps a Yelp Fusion API business object to the standard Pastry lead schema.
+   * Maps a Yelp Fusion API business object to the standard LeadHero lead schema.
    * @param {Object} item - Yelp API item
    * @returns {Object} Normalized lead record
    */
@@ -431,7 +431,7 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 if (typeof window !== 'undefined') {
-  window.PastryExtractYelp = {
+  const yelpApi = {
     detectYelpBlock,
     isValidBusinessName,
     extractYelp,
@@ -440,6 +440,8 @@ if (typeof window !== 'undefined') {
     cleanYelpRedir,
     YelpApiProvider
   };
+  window.LeadHeroExtractYelp = yelpApi;
+  window.PastryExtractYelp = yelpApi;
   window.extractYelp = extractYelp;
   window.detectYelpBlock = detectYelpBlock;
 }

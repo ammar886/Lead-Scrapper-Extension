@@ -1,5 +1,5 @@
 /**
- * Pastry Lead Scraper - Normalization & Deduplication Utilities
+ * LeadHero - Normalization & Deduplication Utilities
  * Ensures standard record structures across Google Maps, Yelp, and Websites.
  */
 
@@ -10,7 +10,7 @@
 function generateId() {
   const timestamp = Date.now().toString(36);
   const randomPart = Math.random().toString(36).substring(2, 9);
-  return `pastry_${timestamp}_${randomPart}`;
+  return `leadhero_${timestamp}_${randomPart}`;
 }
 
 /**
@@ -351,7 +351,7 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 if (typeof window !== 'undefined') {
-  window.PastryNormalize = {
+  const api = {
     generateId,
     normalizePhone,
     formatPhoneDisplay,
@@ -364,6 +364,8 @@ if (typeof window !== 'undefined') {
     isValidRecord,
     INVALID_BUSINESS_SIGNATURES
   };
+  window.LeadHeroNormalize = api;
+  window.PastryNormalize = api;
   window.normalizePhone = normalizePhone;
   window.formatPhoneDisplay = formatPhoneDisplay;
   window.createBusinessRecord = createBusinessRecord;

@@ -1,5 +1,5 @@
 /**
- * Pastry Lead Scraper - Extractor Verification Test
+ * LeadHero - Extractor Verification Test
  * Tests Google Maps and Yelp DOM extraction logic against real-world HTML structures.
  */
 

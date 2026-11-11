@@ -1,6 +1,6 @@
 /**
- * Pastry Lead Scraper - Storage Module
- * Uses chrome.storage.local for persistent data management with duplicate prevention.
+ * LeadHero - Storage Module
+ * Uses chrome.storage.local for persistent data management with duplicate prevention and theme preferences.
  * Compatible with Node.js and standalone environments for automated testing.
  */
 
@@ -8,16 +8,17 @@
 let normalizeUtils;
 if (typeof module !== 'undefined' && module.exports) {
   normalizeUtils = require('./normalize.js');
-} else if (typeof window !== 'undefined' && window.PastryNormalize) {
-  normalizeUtils = window.PastryNormalize;
+} else if (typeof window !== 'undefined' && (window.LeadHeroNormalize || window.PastryNormalize)) {
+  normalizeUtils = window.LeadHeroNormalize || window.PastryNormalize;
 } else if (typeof areDuplicates === 'function') {
   normalizeUtils = { areDuplicates, createBusinessRecord };
 }
 
 const STORAGE_KEYS = {
-  BUSINESSES: 'pastry_businesses',
-  LICENSE: 'pastry_license',
-  STATS: 'pastry_stats'
+  BUSINESSES: 'leadhero_businesses',
+  LICENSE: 'leadhero_license',
+  STATS: 'leadhero_stats',
+  THEME: 'leadhero_theme'
 };
 
 /**
@@ -133,7 +134,7 @@ async function getBusinesses() {
  * @returns {Promise<{saved: boolean, duplicate: boolean, invalid?: boolean, record: Object}>}
  */
 async function saveBusiness(rawBusiness) {
-  const normHelper = normalizeUtils || (typeof window !== 'undefined' ? window.PastryNormalize : null);
+  const normHelper = normalizeUtils || (typeof window !== 'undefined' ? (window.LeadHeroNormalize || window.PastryNormalize) : null);
   const record = normHelper.createBusinessRecord(rawBusiness);
 
   // Reject empty, fabricated, or blocked/error records
@@ -189,7 +190,7 @@ async function saveBusinesses(rawBusinesses) {
     return { added: 0, duplicates: 0, total: list.length };
   }
 
-  const normHelper = normalizeUtils || (typeof window !== 'undefined' ? window.PastryNormalize : null);
+  const normHelper = normalizeUtils || (typeof window !== 'undefined' ? (window.LeadHeroNormalize || window.PastryNormalize) : null);
   const [businesses, stats] = await Promise.all([getBusinesses(), getStats()]);
 
   let addedCount = 0;
@@ -346,6 +347,35 @@ async function clearLicense() {
   await StorageAdapter.remove([STORAGE_KEYS.LICENSE]);
 }
 
+/**
+ * Retrieves the saved UI theme ('light' or 'dark').
+ * @returns {Promise<'light'|'dark'>}
+ */
+async function getTheme() {
+  const data = await StorageAdapter.get([STORAGE_KEYS.THEME]);
+  const stored = data[STORAGE_KEYS.THEME];
+  if (stored === 'dark' || stored === 'light') {
+    return stored;
+  }
+  return 'light';
+}
+
+/**
+ * Saves the UI theme ('light' or 'dark') persistently.
+ * @param {'light'|'dark'} theme
+ * @returns {Promise<'light'|'dark'>}
+ */
+async function saveTheme(theme) {
+  const normalized = theme === 'dark' ? 'dark' : 'light';
+  await StorageAdapter.set({ [STORAGE_KEYS.THEME]: normalized });
+  if (typeof localStorage !== 'undefined') {
+    try {
+      localStorage.setItem(STORAGE_KEYS.THEME, normalized);
+    } catch (e) {}
+  }
+  return normalized;
+}
+
 // Export for module systems and global browser window
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
@@ -360,12 +390,14 @@ if (typeof module !== 'undefined' && module.exports) {
     getStats,
     getLicense,
     saveLicense,
-    clearLicense
+    clearLicense,
+    getTheme,
+    saveTheme
   };
 }
 
 if (typeof window !== 'undefined') {
-  window.PastryStorage = {
+  const storageApi = {
     STORAGE_KEYS,
     StorageAdapter,
     getBusinesses,
@@ -377,8 +409,12 @@ if (typeof window !== 'undefined') {
     getStats,
     getLicense,
     saveLicense,
-    clearLicense
+    clearLicense,
+    getTheme,
+    saveTheme
   };
+  window.LeadHeroStorage = storageApi;
+  window.PastryStorage = storageApi;
   window.getBusinesses = getBusinesses;
   window.saveBusiness = saveBusiness;
   window.saveBusinesses = saveBusinesses;
@@ -389,4 +425,6 @@ if (typeof window !== 'undefined') {
   window.getLicense = getLicense;
   window.saveLicense = saveLicense;
   window.clearLicense = clearLicense;
+  window.getTheme = getTheme;
+  window.saveTheme = saveTheme;
 }

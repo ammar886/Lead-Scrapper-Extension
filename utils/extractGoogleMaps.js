@@ -1,5 +1,5 @@
 /**
- * Pastry Lead Scraper - Google Maps Extraction Module
+ * LeadHero - Google Maps Extraction Module
  * Extracts business information from Google Maps place profiles and search result feeds.
  * Resilient to dynamic class changes by using multiple selector strategies, ARIA attributes, and data-item-id tags.
  */
@@ -283,8 +283,8 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 if (typeof window !== 'undefined') {
-  window.PastryExtractGoogleMaps = {
-    extractGoogleMaps
-  };
+  const gmapsApi = { extractGoogleMaps };
+  window.LeadHeroExtractGoogleMaps = gmapsApi;
+  window.PastryExtractGoogleMaps = gmapsApi;
   window.extractGoogleMaps = extractGoogleMaps;
 }

@@ -1,7 +1,7 @@
-# Pastry Lead Scraper – Comprehensive Project Documentation
+# LeadHero – Comprehensive Project Documentation
 
 > **Reviewer**: Technical Hiring Manager / Engineering Reviewer  
-> **Project**: Pastry Marketing – Business Lead Scraper Chrome Extension (Take-Home Assignment)  
+> **Project**: LeadHero – Business Lead Scraper Chrome Extension (Pastry Marketing Take-Home Assignment)  
 > **Target Audience**: Home repair & service business lead generation (Plumbers, Electricians, HVAC Contractors, Roofers, Landscapers)  
 > **Environment**: Google Chrome (Manifest V3) – Standalone / Load Unpacked  
 
@@ -10,7 +10,7 @@
 ## 1. Project Overview & Objectives
 
 ### 1.1 Objective
-**Pastry Lead Scraper** is a client-side Chrome Extension designed for Pastry Marketing. Its objective is to collect, normalize, deduplicate, persist, and export business contact information from three primary sources:
+**LeadHero** is a client-side Chrome Extension designed for Pastry Marketing. Its objective is to collect, normalize, deduplicate, persist, and export business contact information from three primary sources:
 1. **Google Maps** (Place profiles and search result feeds)
 2. **Yelp** (Business detail profiles and local search listings)
 3. **Individual Business Websites** (Schema.org JSON-LD structured data, Open Graph tags, and DOM contact elements)
@@ -28,13 +28,15 @@
 
 ### 2.1 Extension Popup (`popup.html`, `popup.js`, `popup.css`)
 - **Active Tab Inspection**: Queries the active tab URL and determines whether the active site is Google Maps, Yelp, a general business website, or an unsupported browser page (`chrome://`).
+- **Light / Dark Theme Switcher**: Compact toggle button in the popup header (`#popup-theme-toggle`) synchronized with the dashboard via `chrome.storage.local`.
 - **Quick Extraction Trigger**: Dispatches extraction directly from the toolbar menu without opening the full dashboard.
 - **Live License Badge**: Displays whether the extension is active or requires license key activation.
 - **Metric Badges**: Real-time counter of total leads saved and duplicates prevented.
-- **Dashboard Launcher**: 1-click button to launch the full-tab CRM dashboard (`dashboard.html`).
+- **Dashboard Launcher**: 1-click button to launch the full-tab LeadHero dashboard (`dashboard.html`).
 
 ### 2.2 CRM Lead Dashboard (`dashboard.html`, `dashboard.js`, `dashboard.css`)
-- **Linear/Stripe-Inspired SaaS Aesthetic**: Clean white/slate background, dark navy typography, indigo accents (`#4F46E5`), subtle borders, responsive data table, and modal confirmation dialogs.
+- **White, Dark & Light Blue Theme System**: Clean Light Mode (white/ice cards, dark navy text, sky-blue accents `#0284C7` / `#38BDF8`) and Dark Mode (deep dark navy `#090E17` / `#111827`, crisp white text, luminous light-blue `#38BDF8` accents).
+- **Theme Switching Options**: Dedicated segmented `Light / Dark` pill switcher in the header plus visual `Light Mode` / `Dark Mode` option cards in the Settings modal, synced in real time across tabs.
 - **Search Configuration**:
   - Keyword/trade input with 5 quick suggestion chips (`Plumber`, `Electrician`, `HVAC Contractor`, `Roofer`, `Landscaping`).
   - Target location input with 4 metro chips (`Houston, TX`, `Dallas, TX`, `Austin, TX`, `Phoenix, AZ`).
@@ -60,7 +62,7 @@
   - Illustrated empty state with 1-click search starter.
 
 ### 2.3 Floating In-Page Action Widget (`content.js`)
-- Injected on target pages as a non-intrusive floating pill (`🥐 Extract Leads`) in the lower-right corner.
+- Injected on target pages as a non-intrusive dark navy & light-blue floating pill (`⚡ LeadHero: Extract ...`) in the lower-right corner.
 - Provides immediate visual feedback (`✓ X Saved (Y dup)!` or `⚠️ Yelp access restricted`).
 - Includes a dismiss (`×`) control.
 
@@ -76,8 +78,8 @@
 - Rejects error and CAPTCHA titles (`isValidRecord()`).
 
 ### 2.5 Data Exports & Clipboard (`utils/export.js`)
-- **CSV Export**: Native RFC 4180 quotation and comma escaping with UTF-8 BOM. Downloads as `pastry-business-leads.csv`.
-- **XLSX Export**: Formatted spreadsheet generated via locally bundled SheetJS (`libs/xlsx.full.min.js`). Column widths formatted, worksheet named `Business Leads`. Downloads as `pastry-business-leads.xlsx`.
+- **CSV Export**: Native RFC 4180 quotation and comma escaping with UTF-8 BOM. Downloads as `leadhero-business-leads.csv`.
+- **XLSX Export**: Formatted spreadsheet generated via locally bundled SheetJS (`libs/xlsx.full.min.js`). Column widths formatted, worksheet named `Business Leads`. Downloads as `leadhero-business-leads.xlsx`.
 - **Clipboard TSV Copy**: Copies all or selected leads as Tab-Separated Values with headers for direct paste into Google Sheets or Microsoft Excel.
 
 ### 2.6 Evaluation License Activation (`utils/license.js`)
@@ -112,10 +114,10 @@
    - In the folder selection dialog, navigate to and select the project root folder (`c:\dev\trial_task`).
    - Click **Select Folder**.
 5. **Verify Installation**:
-   - You will see the **Pastry Lead Scraper** extension card appear with version `1.0.0` and the croissant logo.
+   - You will see the **LeadHero** extension card appear with version `1.0.0` and the dark-navy/light-blue lightning emblem.
    - Verify that there are **no manifest or initialization errors**.
 6. **Pin to Toolbar (Recommended)**:
-   Click the puzzle piece icon (Extensions menu) in the Chrome toolbar and pin **Pastry Lead Scraper** for quick access.
+   Click the puzzle piece icon (Extensions menu) in the Chrome toolbar and pin **LeadHero** for quick access.
 
 ---
 
@@ -126,16 +128,16 @@ The extension requires activation before access to the dashboard is granted. The
 
 | Demonstration Key | Description |
 | :--- | :--- |
-| `PASTRY-DEMO-2026` | Primary evaluation key for Pastry Marketing review |
-| `PASTRY-TEST-001` | Secondary evaluation key |
-| `PASTRY-TEST-002` | Tertiary evaluation key |
+| `LEADHERO-DEMO-2026` | Primary evaluation key for LeadHero review |
+| `LEADHERO-TEST-001` | Secondary evaluation key |
+| `LEADHERO-TEST-002` | Tertiary evaluation key |
 
 ### 4.2 Activation Behavior
-- Validation is **case-insensitive** and **trims leading/trailing whitespace** (e.g., `pastry-demo-2026` is accepted).
+- Validation is **case-insensitive** and **trims leading/trailing whitespace** (e.g., `leadhero-demo-2026` is accepted).
 - Any invalid string (e.g., `INVALID-KEY`, blank text) is rejected with an inline error message:  
-  *"Invalid license key. Please check your key or use a demo key (e.g. PASTRY-DEMO-2026)."*
+  *"Invalid license key. Please check your key or use a demo key (e.g. LEADHERO-DEMO-2026)."*
 - The activation screen provides clickable key chips; clicking any chip automatically fills the input.
-- Upon activation, an object `{ key, status: 'active', activatedAt: ISO_DATE }` is stored in `chrome.storage.local` under the key `pastry_license`.
+- Upon activation, an object `{ key, status: 'active', activatedAt: ISO_DATE }` is stored in `chrome.storage.local` under the key `leadhero_license`.
 - The dashboard unlocks immediately, and the header pill displays `Active: <KEY>`.
 
 ### 4.3 Security & Prototype Notice
@@ -151,11 +153,12 @@ The extension requires activation before access to the dashboard is granted. The
 ## 5. Step-by-Step User Guide
 
 ### Step 1: Open the Dashboard
-- Click the Pastry icon in your Chrome toolbar and click **Open Lead Dashboard**, or navigate directly to:
+- Click the LeadHero icon in your Chrome toolbar and click **Open LeadHero Dashboard**, or navigate directly to:
   ```text
   chrome-extension://<EXTENSION_ID>/dashboard.html
   ```
-- If prompted, activate with `PASTRY-DEMO-2026`.
+- If prompted, activate with `LEADHERO-DEMO-2026`.
+- Optional: Switch between **Light Mode** and **Dark Mode** anytime using the `Light / Dark` segmented toggle in the header, the appearance option cards in Settings, or the theme icon in the toolbar popup.
 
 ### Step 2: Configure & Launch Search
 1. In the **Search Configuration** card:
@@ -170,7 +173,7 @@ The extension requires activation before access to the dashboard is granted. The
 
 ### Step 3: Extract Leads from Active Pages
 There are three ways to extract data from an opened page:
-- **Method A (In-Page Floating Widget)**: On any Google Maps, Yelp, or website tab, click the floating **"🥐 Extract Leads"** pill in the lower-right corner.
+- **Method A (In-Page Floating Widget)**: On any Google Maps, Yelp, or website tab, click the floating **"⚡ LeadHero: Extract ..."** pill in the lower-right corner.
 - **Method B (Toolbar Popup)**: Click the extension icon in the Chrome toolbar and click **Extract Leads**.
 - **Method C (Dashboard Header Button)**: Switch back to the Dashboard tab and click **⚡ Extract from Active Tab**.
 
@@ -186,8 +189,8 @@ There are three ways to extract data from an opened page:
    - Clear all records by clicking **Clear All** (requires confirmation).
 
 ### Step 5: Exporting Collected Data
-- **Export CSV**: Click **Export CSV** to download `pastry-business-leads.csv`.
-- **Export XLSX**: Click **Export XLSX** to download `pastry-business-leads.xlsx`.
+- **Export CSV**: Click **Export CSV** to download `leadhero-business-leads.csv`.
+- **Export XLSX**: Click **Export XLSX** to download `leadhero-business-leads.xlsx`.
 - **Copy to Clipboard (TSV)**:
   - Click **Copy All** to copy all visible records as tab-separated values.
   - Click **Copy Selected** to copy only checked rows.
@@ -198,7 +201,7 @@ There are three ways to extract data from an opened page:
 ## 6. Technical Architecture
 
 ```text
-pastry-lead-scraper/
+leadhero/
 │
 ├── manifest.json              # Extension manifest (MV3 specification)
 ├── background.js              # Service Worker message router & tab coordinator
@@ -282,7 +285,7 @@ Every extraction source normalizes raw DOM data into a consistent JavaScript obj
 
 ```javascript
 {
-  id: "pastry_l8z2k1_9x8q",                           // Generated unique identifier
+  id: "leadhero_l8z2k1_9x8q",                         // Generated unique identifier
   name: "Apex Plumbing & Drain Solutions",           // Business title
   phone: "+17135554321",                             // Standardized E.164 phone
   category: "Plumber",                               // Primary trade / category
@@ -325,7 +328,7 @@ Every extraction source normalizes raw DOM data into a consistent JavaScript obj
 - **Escaping**: If any cell contains commas, double quotes, or newlines, the entire cell is wrapped in double quotes, and interior double quotes are escaped as `""`.
 - **Character Encoding**: Includes a UTF-8 Byte Order Mark (`\uFEFF`) at the beginning of the file so Microsoft Excel opens special characters and accents cleanly.
 - **Trigger**: Native browser `Blob` and `URL.createObjectURL` anchor download.
-- **Filename**: `pastry-business-leads.csv`.
+- **Filename**: `leadhero-business-leads.csv`.
 
 ### 8.2 XLSX Spreadsheet Export (`libs/xlsx.full.min.js`)
 - **Library**: Bundled SheetJS version 0.20.3 (`libs/xlsx.full.min.js`).
@@ -333,7 +336,7 @@ Every extraction source normalizes raw DOM data into a consistent JavaScript obj
 - **Formatting**:
   - WorkSheet name: `Business Leads`.
   - Column auto-widths configured: Business Name (28), Phone (18), Category (22), Business Link (32), Address (32), Website (28), Source (14), Date (22), Lead ID (24).
-- **Trigger**: `XLSX.writeFile(workbook, 'pastry-business-leads.xlsx')`.
+- **Trigger**: `XLSX.writeFile(workbook, 'leadhero-business-leads.xlsx')`.
 
 ### 8.3 Tab-Separated Values (TSV) Clipboard Copy
 - **Format**: Columns delimited by tabs (`\t`), rows delimited by CRLF (`\r\n`).
@@ -350,9 +353,10 @@ All persistence is handled through `chrome.storage.local` via the `StorageAdapte
 
 | Storage Key | Data Structure | Purpose |
 | :--- | :--- | :--- |
-| `pastry_businesses` | `Array<BusinessRecord>` | Array of collected business lead objects. |
-| `pastry_license` | `Object` | Active license information (`{ key, status, activatedAt, type }`). |
-| `pastry_stats` | `Object` | Operational metrics (`{ duplicatesPrevented: number }`). |
+| `leadhero_businesses` | `Array<BusinessRecord>` | Array of collected business lead objects. |
+| `leadhero_license` | `Object` | Active license information (`{ key, status, activatedAt, type }`). |
+| `leadhero_stats` | `Object` | Operational metrics (`{ duplicatesPrevented: number }`). |
+| `leadhero_theme` | `'light' \| 'dark'` | Saved color mode preference synced between Popup and Dashboard. |
 
 ### 9.2 Persistence Lifecycle
 - Data persists across closing and reopening Google Chrome.
@@ -395,8 +399,9 @@ This table reflects the **actual code implementation and test verification statu
 | Feature | Implementation Status | Testing Status | Detailed Explanation |
 | :--- | :---: | :---: | :--- |
 | **Manifest V3 Core** | **Implemented** | **Fully Tested** | Validated schema, background service worker, declarative content scripts, and PNG icon assets across 16x16, 32x32, 48x48, 128x128. |
-| **License Activation Modal** | **Implemented** | **Fully Tested** | Validates against `PASTRY-DEMO-2026`, `PASTRY-TEST-001`, `PASTRY-TEST-002`. Case-insensitive, trims whitespace, locks dashboard when inactive. |
-| **License Deactivation** | **Implemented** | **Fully Tested** | Settings modal includes a reset button that purges `pastry_license` from storage and re-locks the dashboard. |
+| **License Activation Modal** | **Implemented** | **Fully Tested** | Validates against `LEADHERO-DEMO-2026`, `LEADHERO-TEST-001`, `LEADHERO-TEST-002`. Case-insensitive, trims whitespace, locks dashboard when inactive. |
+| **License Deactivation** | **Implemented** | **Fully Tested** | Settings modal includes a reset button that purges `leadhero_license` from storage and re-locks the dashboard. |
+| **Light / Dark Theme Switching** | **Implemented** | **Fully Tested** | White, Dark, and Light Blue color themes with segmented `Light / Dark` header toggle, Settings cards, popup button, and `leadhero_theme` storage persistence. |
 | **Search URL Generation** | **Implemented** | **Fully Tested** | Validates keyword/location and generates proper query URLs for Google Maps and Yelp. Opens in new Chrome tabs. |
 | **Website Metadata Extraction** | **Implemented** | **Fully Tested** | Tested against Schema.org JSON-LD `LocalBusiness`/`Plumber` markup, Open Graph tags, `<address>`, and `a[href^="tel:"]`. |
 | **Google Maps Place Extraction** | **Implemented** | **Tested via Fixture** | Selectors target `h1.DUwDvf`, `button[data-item-id^="phone:"]`, `button[data-item-id*="address"]`, and authority website links. Tested on DOM fixture. |
@@ -408,8 +413,8 @@ This table reflects the **actual code implementation and test verification statu
 | **Phone Normalization** | **Implemented** | **Fully Tested** | Standardizes formats (e.g., `(713) 555-1234`, `713.555.1234`) to `+17135551234`. Tested across standard US variations. |
 | **Deduplication Engine** | **Implemented** | **Fully Tested** | Rejects duplicates by phone match and name/address token overlap. Updates provenance and increments duplicate counter. |
 | **Local Storage Persistence** | **Implemented** | **Fully Tested** | `chrome.storage.local` CRUD operations verified. Data survives tab refreshes and browser restarts. |
-| **CSV Export** | **Implemented** | **Fully Tested** | Generates RFC 4180 CSV with quotes, commas, and UTF-8 BOM. Downloads as `pastry-business-leads.csv`. |
-| **XLSX Export** | **Implemented** | **Fully Tested** | Generates formatted workbook with SheetJS (`xlsx.full.min.js`). Column widths formatted. Downloads as `pastry-business-leads.xlsx`. |
+| **CSV Export** | **Implemented** | **Fully Tested** | Generates RFC 4180 CSV with quotes, commas, and UTF-8 BOM. Downloads as `leadhero-business-leads.csv`. |
+| **XLSX Export** | **Implemented** | **Fully Tested** | Generates formatted workbook with SheetJS (`xlsx.full.min.js`). Column widths formatted. Downloads as `leadhero-business-leads.xlsx`. |
 | **Clipboard TSV Copy** | **Implemented** | **Fully Tested** | Generates tab-delimited text with headers. Tested for pasting into Excel/Sheets. |
 | **Table Sorting & Filtering** | **Implemented** | **Fully Tested** | Live multi-column text search, source filter dropdown, and ascending/descending column sorting verified. |
 | **Individual & Bulk Deletion** | **Implemented** | **Fully Tested** | Row deletion, bulk selection deletion, and clear all with modal confirmations verified. |
@@ -494,7 +499,7 @@ To transition this MVP into a commercial-grade enterprise lead platform for Past
 ## 16. Troubleshooting & Frequently Asked Questions
 
 ### Q1: The extension says "Activation Required" and won't let me use the dashboard.
-- **Solution**: Open the dashboard and enter the demo key `PASTRY-DEMO-2026`. Click **Activate Extension**. You can also click any of the blue key chips above the input field to auto-fill.
+- **Solution**: Open the dashboard and enter the demo key `LEADHERO-DEMO-2026`. Click **Activate LeadHero**. You can also click any of the light-blue key chips above the input field to auto-fill.
 
 ### Q2: Why does Yelp say "Yelp access restricted"?
 - **Solution**: Yelp has presented an anti-bot or CAPTCHA challenge on that tab. Switch to the Yelp tab, solve the verification challenge manually in your browser, and then re-click **Extract Leads**.

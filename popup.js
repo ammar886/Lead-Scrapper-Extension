@@ -1,5 +1,5 @@
 /**
- * Pastry Lead Scraper - Popup Script
+ * LeadHero - Popup Script
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -12,9 +12,50 @@ document.addEventListener('DOMContentLoaded', async () => {
   const totalLeadsEl = document.getElementById('popup-total-leads');
   const dupLeadsEl = document.getElementById('popup-dup-leads');
   const openDashboardBtn = document.getElementById('open-dashboard-btn');
+  const themeToggleBtn = document.getElementById('popup-theme-toggle');
 
   let currentTab = null;
   let detectedSource = 'website';
+  let currentTheme = 'light';
+
+  // 0. Initialize & sync theme
+  function applyTheme(theme) {
+    currentTheme = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    if (themeToggleBtn) {
+      themeToggleBtn.title = currentTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+    }
+  }
+
+  try {
+    const cachedTheme = localStorage.getItem('leadhero_theme');
+    if (cachedTheme === 'dark' || cachedTheme === 'light') {
+      applyTheme(cachedTheme);
+    }
+  } catch (e) {}
+
+  if (typeof getTheme === 'function') {
+    const savedTheme = await getTheme();
+    applyTheme(savedTheme);
+  }
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', async () => {
+      const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(nextTheme);
+      if (typeof saveTheme === 'function') {
+        await saveTheme(nextTheme);
+      }
+    });
+  }
+
+  if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.onChanged) {
+    chrome.storage.onChanged.addListener((changes, areaName) => {
+      if (areaName === 'local' && changes.leadhero_theme) {
+        applyTheme(changes.leadhero_theme.newValue);
+      }
+    });
+  }
 
   // 1. Check license status
   const license = await getLicenseStatus();
@@ -25,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } else {
     licenseBadge.textContent = 'Activation Required';
     licenseBadge.className = 'badge badge-inactive';
-    licenseBadge.title = 'Please activate your license in the dashboard.';
+    licenseBadge.title = 'Please activate your license in the LeadHero dashboard.';
   }
 
   // 2. Load stats
@@ -123,7 +164,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function showStatus(text, type) {
     statusEl.textContent = text;
-    statusEl.className = `status-msg ${type === 'success' ? 'status-success' : 'status-error'}`;
+    const statusClass = type === 'success'
+      ? 'status-success'
+      : type === 'warning'
+        ? 'status-warning'
+        : 'status-error';
+    statusEl.className = `status-msg ${statusClass}`;
   }
 
   // 5. Open full dashboard
@@ -131,4 +177,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     chrome.tabs.create({ url: chrome.runtime.getURL('dashboard.html') });
   });
 });
-

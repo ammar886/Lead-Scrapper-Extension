@@ -1,20 +1,21 @@
 {
-  "name": "pastry-lead-scraper",
+  "name": "leadhero",
   "version": "1.0.0",
-  "description": "Chrome Extension (Manifest V3) for extracting, deduplicating, and exporting business leads from Google Maps, Yelp, and websites for home service businesses.",
+  "description": "LeadHero Chrome Extension (Manifest V3) for extracting, deduplicating, and exporting business leads from Google Maps, Yelp, and websites.",
   "scripts": {
     "test": "node scripts/test_all.js && node scripts/test_extractors.js"
   },
   "keywords": [
     "chrome-extension",
     "manifest-v3",
+    "leadhero",
     "lead-generation",
     "scraper",
     "google-maps",
     "yelp",
     "schema-org"
   ],
-  "author": "Pastry Marketing Candidate",
+  "author": "LeadHero",
   "license": "MIT",
   "private": true
 }

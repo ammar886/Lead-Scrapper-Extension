@@ -1,6 +1,6 @@
 /**
- * Pastry Lead Scraper - Comprehensive Test Suite
- * Tests manifest validity, core utilities, deduplication, storage, exports, and DOM extractors.
+ * LeadHero - Comprehensive Test Suite
+ * Tests manifest validity, core utilities, theme persistence, deduplication, storage, exports, and DOM extractors.
  */
 
 const fs = require('fs');
@@ -17,8 +17,8 @@ const manifest = JSON.parse(manifestRaw);
 console.log('✓ Manifest is valid JSON');
 console.assert(manifest.manifest_version === 3, 'Manifest version must be 3');
 console.log('✓ Manifest version is 3');
-console.assert(manifest.name === 'Pastry Lead Scraper', 'Manifest name matches');
-console.log('✓ Manifest name is "Pastry Lead Scraper"');
+console.assert(manifest.name === 'LeadHero', `Manifest name matches (got ${manifest.name})`);
+console.log('✓ Manifest name is "LeadHero"');
 console.assert(manifest.permissions.includes('storage'), 'Has storage permission');
 console.assert(manifest.permissions.includes('tabs'), 'Has tabs permission');
 console.assert(manifest.permissions.includes('activeTab'), 'Has activeTab permission');
@@ -37,10 +37,10 @@ console.log('\n=============================================');
 console.log('TEST 2: License System Validation');
 console.log('=============================================');
 const license = require('../utils/license.js');
-console.assert(license.validateLicense('PASTRY-DEMO-2026'), 'PASTRY-DEMO-2026 valid');
-console.assert(license.validateLicense('pastry-demo-2026'), 'Case-insensitive valid');
-console.assert(license.validateLicense('  PASTRY-TEST-001  '), 'Trimmed valid');
-console.assert(license.validateLicense('PASTRY-TEST-002'), 'PASTRY-TEST-002 valid');
+console.assert(license.validateLicense('LEADHERO-DEMO-2026'), 'LEADHERO-DEMO-2026 valid');
+console.assert(license.validateLicense('leadhero-demo-2026'), 'Case-insensitive valid');
+console.assert(license.validateLicense('  LEADHERO-TEST-001  '), 'Trimmed valid');
+console.assert(license.validateLicense('LEADHERO-TEST-002'), 'LEADHERO-TEST-002 valid');
 console.assert(!license.validateLicense('INVALID-KEY'), 'Invalid key rejected');
 console.assert(!license.validateLicense(''), 'Empty key rejected');
 console.assert(!license.validateLicense(null), 'Null key rejected');
@@ -164,6 +164,17 @@ async function testStorageFlow() {
   const emptyList = await storage.getBusinesses();
   console.assert(emptyList.length === 0, 'List is now empty');
   console.log('✓ Batch deletion verified');
+
+  // Theme preference persistence
+  const defaultTheme = await storage.getTheme();
+  console.assert(defaultTheme === 'light', `Default theme is light, got ${defaultTheme}`);
+  await storage.saveTheme('dark');
+  const darkTheme = await storage.getTheme();
+  console.assert(darkTheme === 'dark', `Saved theme is dark, got ${darkTheme}`);
+  await storage.saveTheme('light');
+  const lightTheme = await storage.getTheme();
+  console.assert(lightTheme === 'light', `Switched back to light, got ${lightTheme}`);
+  console.log('✓ Theme preference persistence (light/dark) verified');
 }
 
 // 5. Export Utilities (CSV, XLSX, TSV)

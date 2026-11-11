@@ -1,5 +1,5 @@
 /**
- * Pastry Lead Scraper - Website Extraction Module
+ * LeadHero - Website Extraction Module
  * Extracts business metadata from individual business websites.
  * Inspects JSON-LD Schema.org structured data, Open Graph tags, meta tags, and DOM elements.
  */
@@ -274,8 +274,8 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 if (typeof window !== 'undefined') {
-  window.PastryExtractWebsite = {
-    extractWebsite
-  };
+  const webApi = { extractWebsite };
+  window.LeadHeroExtractWebsite = webApi;
+  window.PastryExtractWebsite = webApi;
   window.extractWebsite = extractWebsite;
 }

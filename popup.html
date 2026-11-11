@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pastry Lead Scraper</title>
+  <title>LeadHero</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
@@ -11,13 +11,36 @@
     <!-- Header -->
     <header class="popup-header">
       <div class="brand">
-        <div class="logo-mark">🥐</div>
+        <div class="logo-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M13 2L4 14h7l-2 8 9-12h-7l2-8z" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.2" stroke-linejoin="round"/>
+          </svg>
+        </div>
         <div class="brand-text">
-          <h1 class="brand-title">Pastry Scraper</h1>
-          <span class="brand-subtitle">Home Service Lead Gen</span>
+          <h1 class="brand-title">LeadHero</h1>
+          <span class="brand-subtitle">Lead Discovery Engine</span>
         </div>
       </div>
-      <div id="license-badge" class="badge badge-inactive">Inactive</div>
+
+      <div class="header-controls">
+        <button id="popup-theme-toggle" class="icon-toggle-btn" type="button" title="Switch Light / Dark Mode" aria-label="Toggle dark mode">
+          <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <div id="license-badge" class="badge badge-inactive">Inactive</div>
+      </div>
     </header>
 
     <!-- Active Tab Status Card -->
@@ -27,7 +50,7 @@
         <span id="detected-source-badge" class="badge badge-source">Checking...</span>
       </div>
       <p id="page-title-preview" class="page-title-text">Inspecting active tab...</p>
-      
+
       <button id="quick-extract-btn" class="btn btn-primary btn-block" disabled>
         <span class="btn-icon">⚡</span>
         <span id="quick-extract-label">Extract Leads from Tab</span>
@@ -50,7 +73,7 @@
     <!-- Actions -->
     <div class="popup-footer">
       <button id="open-dashboard-btn" class="btn btn-secondary btn-block">
-        <span>Open Lead Dashboard</span>
+        <span>Open LeadHero Dashboard</span>
         <span class="arrow-icon">↗</span>
       </button>
     </div>
@@ -62,4 +85,3 @@
   <script src="popup.js"></script>
 </body>
 </html>
-

@@ -1,5 +1,5 @@
 /**
- * Pastry Lead Scraper - Background Service Worker (Manifest V3)
+ * LeadHero - Background Service Worker (Manifest V3)
  * Orchestrates tab management, lead persistence, and inter-component messaging.
  */
 
@@ -10,7 +10,7 @@ importScripts('./utils/normalize.js', './utils/storage.js', './utils/license.js'
  * Handle extension install / update.
  */
 chrome.runtime.onInstalled.addListener(async (details) => {
-  console.log('[Pastry Lead Scraper] Installed. Reason:', details.reason);
+  console.log('[LeadHero] Installed. Reason:', details.reason);
 
   // Initialize storage stats if not set
   const stats = await getStats();
